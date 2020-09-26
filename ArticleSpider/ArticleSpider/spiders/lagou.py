@@ -20,7 +20,7 @@ class LagouSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(allow=('zhaopin/.*',)), follow=True),
-        # Rule(LinkExtractor(allow=('gongsi/j\d+.html',)), follow=True),
+        Rule(LinkExtractor(allow=('gongsi/j\d+.html',)), follow=True),
         Rule(LinkExtractor(allow=r'jobs/\d+.html'), callback='parse_iob', follow=True),
     )
 
@@ -43,8 +43,8 @@ class LagouSpider(CrawlSpider):
         if not cookies:
             browser = webdriver.Chrome(executable_path='C:/Users/ace01/Downloads/browser_drivers/chromedriver.exe')
             browser.get('https://passport.lagou.com/login/login.html')
-            browser.find_element_by_css_selector('.form_body .input.input_white').send_keys('17764534723')
-            browser.find_element_by_css_selector('.form_body .input[type="password"]').send_keys('haha1998')
+            browser.find_element_by_css_selector('.form_body .input.input_white').send_keys('')
+            browser.find_element_by_css_selector('.form_body .input[type="password"]').send_keys('')
             browser.find_element_by_css_selector('div[data-view="passwordLogin"] input.btn_lg').click()
             time.sleep(10)
             cookies = browser.get_cookies()

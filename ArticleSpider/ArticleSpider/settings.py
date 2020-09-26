@@ -25,16 +25,16 @@ NEWSPIDER_MODULE = 'ArticleSpider.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 1
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# RANDOMIZE_DOWNLOAD_DELAY = True
-# DOWNLOAD_DELAY = 3
+RANDOMIZE_DOWNLOAD_DELAY = True
+DOWNLOAD_DELAY = 5
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+# CONCURRENT_REQUESTS_PER_DOMAIN = 16
+# CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
 # 适用于不登录也能访问的网站，但是如知乎等网站则无法登录成功
@@ -65,8 +65,8 @@ DOWNLOADER_MIDDLEWARES = {
     'ArticleSpider.middlewares.ArticlespiderDownloaderMiddleware': 543,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
-    # 'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
-    # 'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+    'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
 }
 
 # Enable or disable extensions
@@ -78,23 +78,23 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
+    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
     # 'ArticleSpider.pipelines.ArticleImagePipeline': 1,  # 优先获取图片路径
     # 'ArticleSpider.pipelines.JsonWithEncodingPipeline': 2,
     # 'ArticleSpider.pipelines.JsonExporterPipeline': 3,
     # 'ArticleSpider.pipelines.MysqlTwistedPipeline': 4,
     # 'ArticleSpider.pipelines.MysqlPipeline': 4,
     # 'scrapy.pipelines.images.ImagesPipeline': 1,
-    'ArticleSpider.pipelines.ElasticSearchPipeline': 1
+    # 'ArticleSpider.pipelines.ElasticSearchPipeline': 1
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0

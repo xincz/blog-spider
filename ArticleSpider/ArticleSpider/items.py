@@ -189,5 +189,45 @@ class LagouJobItem(scrapy.Item):
         return insert_sql, params
 
 
+class GeneralJobItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()
 
+
+class GeneralJobItem(scrapy.Item):
+    title = scrapy.Field()
+    url = scrapy.Field()
+    url_object_id = scrapy.Field()
+    salary = scrapy.Field()
+    job_city = scrapy.Field(input_processor=MapCompose(remove_splash))
+    work_years = scrapy.Field(input_processor=MapCompose(remove_splash))
+    degree_need = scrapy.Field(input_processor=MapCompose(remove_splash))
+    job_desc = scrapy.Field()
+    company_name = scrapy.Field()
+    company_url = scrapy.Field()
+    tags = scrapy.Field(input_processor=Join(","))
+    crawl_time = scrapy.Field()
+
+    def get_insert_sql(self):
+        insert_sql = """
+            insert into general_job(title, url, url_object_id, salary, job_city, work_years,
+            degree_need, job_desc, company_name, company_url, tags, crawl_time)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE salary=VALUES(salary), job_desc=VALUES(job_desc)
+        """
+        params = (
+            self.get("title", ""),
+            self.get("url", ""),
+            self.get("url_object_id", ""),
+            self.get("salary", ""),
+            self.get("job_city", ""),
+            self.get("work_years", ""),
+            self.get("degree_need", ""),
+            self.get("job_desc", ""),
+            self.get("company_name", ""),
+            self.get("company_url", ""),
+            self.get("tags", ""),
+            self["crawl_time"].strftime(SQL_DATETIME_FORMAT),
+        )
+
+        return insert_sql, params
 
